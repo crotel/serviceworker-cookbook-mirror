@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  
+  <title>Dependency Injection Recipe - Beyond Offline - ServiceWorker Cookbook</title>
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="tabzilla.css">
+  <link rel="stylesheet" href="bundle.css">
+  <script type="text/javascript" src="bundle.js" defer></script>
+</head>
+<body>
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49796218-37', 'auto');
+  ga('send', 'pageview');
+  </script>
+
+  <div class="book with-nav">
+    <nav><div class="recipes-cover">
+      <div id="tabzilla">
+        <a href="https://www.mozilla.org/">Mozilla</a>
+      </div>
+
+      <ul class="recipes">
+        <li><a href="/">Introduction</a></li>
+        <li><a href="https://github.com/mozilla/serviceworker-cookbook/">Contribute on GitHub</a></li>
+
+          
+            <li class="category"><a href="caching-strategies.html">Caching strategies</a></li>
+            
+              
+              <li>
+                <a href="strategy-cache-and-update.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Cache and update
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="strategy-cache-only.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Cache only
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="strategy-network-or-cache.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Network or cache
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="strategy-cache-update-and-refresh.html">
+                  <span class="ball-difficulty-2" title="Difficulty: Intermediate">
+                    
+                    I
+                    
+                  </span>
+                  Cache, update and refresh
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="strategy-embedded-fallback.html">
+                  <span class="ball-difficulty-2" title="Difficulty: Intermediate">
+                    
+                    I
+                    
+                  </span>
+                  Embedded fallback
+                </a>
+              </li>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+          
+            <li class="category"><a href="web-push.html">Web Push</a></li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+              <li>
+                <a href="push-get-payload.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Push and Retrieve Payload
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="push-payload.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Push Payload
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="push-rich.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Push Rich
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="push-simple.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Push Simple
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="push-replace.html">
+                  <span class="ball-difficulty-2" title="Difficulty: Intermediate">
+                    
+                    I
+                    
+                  </span>
+                  Push Tag
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="push-clients.html">
+                  <span class="ball-difficulty-3" title="Difficulty: Advanced">
+                    
+                    A
+                    
+                  </span>
+                  Push Clients
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="push-quota.html">
+                  <span class="ball-difficulty-3" title="Difficulty: Advanced">
+                    
+                    A
+                    
+                  </span>
+                  Push Quota
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="push-subscription-management.html">
+                  <span class="ball-difficulty-3" title="Difficulty: Advanced">
+                    
+                    A
+                    
+                  </span>
+                  Push Subscription
+                </a>
+              </li>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+          
+            <li class="category"><a href="general-usage.html">General Usage</a></li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+              <li>
+                <a href="immediate-claim.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Immediate Claim
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="message-relay.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Message Relay
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="fetching.html">
+                  <span class="ball-difficulty-2" title="Difficulty: Intermediate">
+                    
+                    I
+                    
+                  </span>
+                  Fetching Remote Resources
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="live-flowchart.html">
+                  <span class="ball-difficulty-3" title="Difficulty: Advanced">
+                    
+                    A
+                    
+                  </span>
+                  Live Flowchart
+                </a>
+              </li>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+          
+            <li class="category"><a href="offline.html">Offline</a></li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+              <li>
+                <a href="json-cache.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  JSON Cache
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="offline-fallback.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Offline Fallback
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="offline-status.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Offline Status
+                </a>
+              </li>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+          
+            <li class="category"><a href="beyond-offline.html">Beyond Offline</a></li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+              <li>
+                <a href="local-download.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Local Download
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="api-analytics.html">
+                  <span class="ball-difficulty-2" title="Difficulty: Intermediate">
+                    
+                    I
+                    
+                  </span>
+                  API Analytics
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="cache-from-zip.html">
+                  <span class="ball-difficulty-2" title="Difficulty: Intermediate">
+                    
+                    I
+                    
+                  </span>
+                  Cache from ZIP
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="load-balancer.html">
+                  <span class="ball-difficulty-2" title="Difficulty: Intermediate">
+                    
+                    I
+                    
+                  </span>
+                  Load balancer
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="virtual-server.html">
+                  <span class="ball-difficulty-2" title="Difficulty: Intermediate">
+                    
+                    I
+                    
+                  </span>
+                  Virtual Server
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="dependency-injector.html">
+                  <span class="ball-difficulty-3" title="Difficulty: Advanced">
+                    
+                    A
+                    
+                  </span>
+                  Dependency Injection
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="request-deferrer.html">
+                  <span class="ball-difficulty-3" title="Difficulty: Advanced">
+                    
+                    A
+                    
+                  </span>
+                  Request Deferrer
+                </a>
+              </li>
+              
+            
+              
+            
+              
+            
+          
+            <li class="category"><a href="performance.html">Performance</a></li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+              <li>
+                <a href="cache-then-network.html">
+                  <span class="ball-difficulty-1" title="Difficulty: Beginner">
+                    
+                    B
+                    
+                  </span>
+                  Cache then Network
+                </a>
+              </li>
+              
+            
+              
+              <li>
+                <a href="render-store.html">
+                  <span class="ball-difficulty-2" title="Difficulty: Intermediate">
+                    
+                    I
+                    
+                  </span>
+                  Render Store
+                </a>
+              </li>
+              
+            
+          
+      </ul>
+    </div></nav>
+    <main>
+      <header>
+        <div class="nav-top">
+          <div class="item">
+            <button id="navToggle" class="fi-list large"></button>
+          </div>
+          <div class="tabs">
+            
+              <div class="item"><a href="dependency-injector.html">Readme</a></div>
+              <div class="item"><a href="dependency-injector_demo.html">Demo <button class="demo-launch" data-href="dependency-injector/index.html"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAQCAQAAACIaFaMAAAAOklEQVR4AWMgA/yHQhBogPP+I0mgSYEJZgZG7BIQgGkUmnADEGKRaICw0Y1qQHEuNi+QJYEJ8UuQDACsJ1O3PKSOdQAAAABJRU5ErkJggg=="></button></a></div>
+              <div class="item" style="flex-grow: 1;"></div>
+              
+                <div class="item"><a href="dependency-injector_actual-controller_doc.html">actual-controller.js</a></div>
+              
+                <div class="item"><a href="dependency-injector_actual-dialogs_doc.html">actual-dialogs.js</a></div>
+              
+                <div class="item"><a href="dependency-injector_bootstrap_doc.html">bootstrap.js</a></div>
+              
+                <div class="item"><a href="dependency-injector_default-mapping_doc.html">default-mapping.js</a></div>
+              
+                <div class="item"><a href="dependency-injector_injector_doc.html">injector.js</a></div>
+              
+                <div class="item"><a href="dependency-injector_mock-dialogs_doc.html">mock-dialogs.js</a></div>
+              
+                <div class="item"><a href="dependency-injector_production-sw_doc.html">production-sw.js</a></div>
+              
+                <div class="item"><a href="dependency-injector_testing-sw_doc.html">testing-sw.js</a></div>
+              
+            
+          </div>
+        </div>
+      </header>
+      <div class="main-inner">
+        <div id="container">
+  <div id="background"></div>
+  
+  <ul class="sections">
+      
+        <li id="title">
+            <div class="annotation">
+                <h1>injector.js</h1>
+            </div>
+        </li>
+      
+      
+      
+      <li id="section-1">
+          <div class="annotation">
+            
+            <div class="pilwrap ">
+              <a class="pilcrow" href="#section-1">&#182;</a>
+            </div>
+            
+          </div>
+          
+          <div class="content"><div class='highlight'><pre><span class="hljs-comment">/* eslint no-unused-vars: 0 */</span>
+<span class="hljs-comment">/* global mapping */</span></pre></div></div>
+          
+      </li>
+      
+      
+      <li id="section-2">
+          <div class="annotation">
+            
+            <div class="pilwrap ">
+              <a class="pilcrow" href="#section-2">&#182;</a>
+            </div>
+            <p>This script must to be added via <code>importScripts()</code> to the
+service workers. See <code>testing-sw.js</code> and <code>production-sw.js</code>
+first.</p>
+
+          </div>
+          
+      </li>
+      
+      
+      <li id="section-3">
+          <div class="annotation">
+            
+            <div class="pilwrap ">
+              <a class="pilcrow" href="#section-3">&#182;</a>
+            </div>
+            <p>Make the SW control the client ASAP.</p>
+
+          </div>
+          
+          <div class="content"><div class='highlight'><pre><span class="hljs-keyword">function</span> <span class="hljs-title function_">onInstall</span>(<span class="hljs-params">event</span>) {
+  event.<span class="hljs-title function_">waitUntil</span>(self.<span class="hljs-title function_">skipWaiting</span>());
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onActivate</span>(<span class="hljs-params">event</span>) {
+  event.<span class="hljs-title function_">waitUntil</span>(self.<span class="hljs-property">clients</span>.<span class="hljs-title function_">claim</span>());
+}</pre></div></div>
+          
+      </li>
+      
+      
+      <li id="section-4">
+          <div class="annotation">
+            
+            <div class="pilwrap ">
+              <a class="pilcrow" href="#section-4">&#182;</a>
+            </div>
+            <p>Easy, simply try to find an actual resource URL for an abstract request.
+If not found, let’s fetch the abstract resource. In this demo, this never
+fails.</p>
+
+          </div>
+          
+          <div class="content"><div class='highlight'><pre><span class="hljs-keyword">function</span> <span class="hljs-title function_">onFetch</span>(<span class="hljs-params">event</span>) {
+  <span class="hljs-keyword">var</span> abstractResource = event.<span class="hljs-property">request</span>.<span class="hljs-property">url</span>;
+  <span class="hljs-keyword">var</span> actualResource = <span class="hljs-title function_">findActualResource</span>(abstractResource);
+  event.<span class="hljs-title function_">respondWith</span>(<span class="hljs-title function_">fetch</span>(actualResource || abstractResource));
+}</pre></div></div>
+          
+      </li>
+      
+      
+      <li id="section-5">
+          <div class="annotation">
+            
+            <div class="pilwrap ">
+              <a class="pilcrow" href="#section-5">&#182;</a>
+            </div>
+            <p>Look inside mapping to get the actual resource URL for the abstract resource URL
+passed as parameter. This act like the dependency factory in charge of creating
+the objects to be injected.</p>
+
+          </div>
+          
+          <div class="content"><div class='highlight'><pre><span class="hljs-keyword">function</span> <span class="hljs-title function_">findActualResource</span>(<span class="hljs-params">abstractResource</span>) {
+  <span class="hljs-keyword">var</span> actualResource;
+  <span class="hljs-keyword">var</span> patterns = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">keys</span>(mapping);
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>; index &lt; patterns.<span class="hljs-property">length</span>; index++) {
+    <span class="hljs-keyword">var</span> pattern = patterns[index];</pre></div></div>
+          
+      </li>
+      
+      
+      <li id="section-6">
+          <div class="annotation">
+            
+            <div class="pilwrap ">
+              <a class="pilcrow" href="#section-6">&#182;</a>
+            </div>
+            <p>A really silly matcher just for learning purposes.</p>
+
+          </div>
+          
+          <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (abstractResource.<span class="hljs-title function_">endsWith</span>(pattern)) {
+      actualResource = mapping[pattern];
+      <span class="hljs-keyword">break</span>;
+    }
+  }</pre></div></div>
+          
+      </li>
+      
+      
+      <li id="section-7">
+          <div class="annotation">
+            
+            <div class="pilwrap ">
+              <a class="pilcrow" href="#section-7">&#182;</a>
+            </div>
+            <p>Can return undefined if there is no actual resource.</p>
+
+          </div>
+          
+          <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">return</span> actualResource;
+}</pre></div></div>
+          
+      </li>
+      
+  </ul>
+</div>
+
+        <hr/>
+        <h2>Has it been useful?</h2>
+       <p>Tell us what you think of this recipe by leaving a comment!</p>
+        <aside id="disqus_thread"></aside>
+        <script>
+         // https://disqus.com/admin/universalcode/#configuration-variables
+         var disqus_config = function () {
+          this.page.identifier = 'dependency-injector';
+         };
+         (function() { // DON'T EDIT BELOW THIS LINE
+           var d = document, s = d.createElement('script');
+           s.src = '//serviceworkers.disqus.com/embed.js';
+           s.setAttribute('data-timestamp', +new Date());
+           (d.head || d.body).appendChild(s);
+         })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
